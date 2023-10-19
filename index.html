@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirect Page</title>
+</head>
+<body>
+<script>
+    // Parse the query parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Check if the "redirect_page" parameter is present
+    if (urlParams.has('redirect_page')) {
+        // Get the value of the "redirect_page" parameter
+        const redirectURL = decodeURIComponent(urlParams.get('redirect_page'));
+
+        // Get the value of the "connection_id" parameter
+        const connectionId = urlParams.get('connection_id');
+
+        // Construct a new URL with the "redirect_page" and "connection_id" parameters
+        let modifiedURL = redirectURL;
+        if (connectionId) {
+            modifiedURL += (redirectURL.includes('?') ? '&' : '?') + 'connection_id=' + connectionId;
+        }
+
+        // Redirect to the modified URL
+        window.location.href = modifiedURL;
+        window.close();
+    } else {
+        // Display a message or take some other action if the parameter is not present
+        document.write("No redirection URL specified.");
+    }
+</script>
+</body>
+</html>
