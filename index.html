@@ -1,33 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Redirect Page</title>
-</head>
-<body>
-<script>
-    // Parse the query parameters from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-
-    // Check if the "redirect_page" parameter is present
-    if (urlParams.has('redirect_page')) {
-        // Get the value of the "redirect_page" parameter
-        const redirectURL = decodeURIComponent(urlParams.get('redirect_page'));
-
-        // Get the value of the "connection_id" parameter
-        const connectionId = urlParams.get('connection_id');
-
-        // Construct a new URL with the "redirect_page" and "connection_id" parameters
-        let modifiedURL = redirectURL;
-        if (connectionId) {
-            modifiedURL += (redirectURL.includes('?') ? '&' : '?') + 'connection_id=' + connectionId;
+    <style>
+        @font-face {
+            font-family: 'Rubik';
+            src: url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
-        // Redirect to the modified URL
-        window.location.href = modifiedURL;
-    } else {
-        // Display a message or take some other action if the parameter is not present
-        document.write("No redirection URL specified.");
-    }
-</script>
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #3ecf8e;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        p {
+            color: #444;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .loading-dots {
+            font-size: 36px;
+            animation: bounce 1.5s infinite;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .logo {
+            max-width: 100px;
+            margin: 0 auto 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img class="logo" src="axelor-logo.png" alt="Axelor">
+    <h1>Redirecting</h1>
+    <div class="loading-dots">. . .</div>
+    <p id="message">Please wait while you are redirected...</p>
+    <script>
+        // Parse the query parameters from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Check if the "redirect_page" parameter is present
+        if (urlParams.has('redirect_page')) {
+            // Get the value of the "redirect_page" parameter
+            const redirectURL = decodeURIComponent(urlParams.get('redirect_page'));
+
+            // Get the value of the "connection_id" parameter
+            const connectionId = urlParams.get('connection_id');
+
+            // Construct a new URL with the "redirect_page" and "connection_id" parameters
+            let modifiedURL = redirectURL;
+            if (connectionId) {
+                modifiedURL += (redirectURL.includes('?') ? '&' : '?') + 'connection_id=' + connectionId;
+            }
+
+            // Redirect to the modified URL after a short delay (e.g., 5 seconds)
+            setTimeout(function () {
+                window.location.href = modifiedURL;
+            }, 5000);
+        } else {
+            // Display a message if the parameter is not present
+            document.getElementById('message').textContent = "No redirection URL specified.";
+        }
+    </script>
+</div>
 </body>
 </html>
