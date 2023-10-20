@@ -64,30 +64,50 @@
 <body>
 <div class="container">
     <img class="logo" src="axelor-logo.png" alt="Axelor">
-    <h1>Redirecting</h1>
+    <h1 id="title">Redirecting</h1>
     <div class="loading-dots">. . .</div>
     <p id="message">Please wait while you are redirected...</p>
     <script>
-        // Parse the query parameters from the URL
+        function getUserLanguage() {
+            const userLang = window.navigator.language || window.navigator.userLanguage;
+            return userLang.toLowerCase().startsWith('fr') ? 'fr' : 'en';
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
 
-        // Check if the "redirect_page" parameter is present
         if (urlParams.has('redirect_page')) {
-            // Get the value of the "redirect_page" parameter
             const redirectURL = decodeURIComponent(urlParams.get('redirect_page'));
 
-            // Get the value of the "connection_id" parameter
+
             const connectionId = urlParams.get('connection_id');
 
-            // Construct a new URL with the "redirect_page" and "connection_id" parameters
+
             let modifiedURL = redirectURL;
             if (connectionId) {
                 modifiedURL += (redirectURL.includes('?') ? '&' : '?') + 'connection_id=' + connectionId;
             }
 
+            const userLanguage = getUserLanguage();
+
+            const content = {
+                en: {
+                    title: 'Redirecting',
+                    message: 'Please wait while you are redirected...',
+                },
+                fr: {
+                    title: 'Redirection',
+                    message: 'Veuillez patienter pendant la redirection...',
+                },
+            };
+
+            document.getElementById('title').textContent = content[userLanguage].title;
+            document.getElementById('message').textContent = content[userLanguage].message;
+
+            setTimeout(function () {
                 window.location.href = modifiedURL;
+            }, 20000);
+
         } else {
-            // Display a message if the parameter is not present
             document.getElementById('message').textContent = "No redirection URL specified.";
         }
     </script>
