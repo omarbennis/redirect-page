@@ -85,10 +85,7 @@
                 modifiedURL += (redirectURL.includes('?') ? '&' : '?') + 'connection_id=' + connectionId;
             }
 
-            // Redirect to the modified URL after a short delay (e.g., 5 seconds)
-            setTimeout(function () {
                 window.location.href = modifiedURL;
-            }, 2000);
         } else {
             // Display a message if the parameter is not present
             document.getElementById('message').textContent = "No redirection URL specified.";
